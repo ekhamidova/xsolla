@@ -1,0 +1,112 @@
+
+<% layout('/layout/page') -%>
+    <div class="panel">
+
+    <div class="panel-heading bg-white section-name"><div><h5>Пользователь <%=user_id%></h5></div>   </div>
+
+        <div class="info">
+            <h4><a href="/users/<%=user_id%>/transactions">Список операций пользователя</a></h4>
+     <form id="userForm" class="form-horizontal m-b-none clearfix m-t-small" method="get"  novalidate="">
+
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Статус</label>
+            <p name="enabled" class="col-sm-2 control-label text-left" >
+
+            </p>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-3 control-label">ID пользователя</label>
+
+            <p name="user_id" class="col-sm-2 control-label text-left text-word-break">
+
+            </p>
+
+        </div>
+
+
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Баланс, Gold</label>
+            <p name="balance" class="col-sm-2 control-label text-left"></p>
+        </div>
+
+
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Xsolla баланс</label>
+            <p name="wallet_amount" class="col-sm-2 control-label text-left"><span dir="ltr"></span></p>
+        </div>
+
+
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Дата регистрации</label>
+            <p name="register_date" class="col-sm-2 control-label text-left">
+                 </p>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Имя пользователя</label>
+            <div class="col-sm-2">
+                <input type="text" name="user_name" class="form-control"  >
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Ник пользователя</label>
+            <div class="col-sm-2">
+                <input type="text" name="user_custom" class="form-control"  >
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Электронная почта</label>
+            <div class="col-sm-2">
+                <input type="text" name="email" class="form-control parsley-error"  placeholder="email@example.ru" >
+                <span class="help-block" style="display: none;">Email введен некорректно</span>
+            </div>
+        </div>
+        <div class="form-group m-b-none">
+            <label class="col-sm-3 control-label"></label>
+            <div class="col-sm-2">
+                <button type="submit"  class="btn btn-success">Сохранить</button>
+            </div>
+        </div>
+    </form>
+    </div>
+    </div>
+    <div class="response-region"><div class="panel"><div class="panel-heading">Изменение баланса</div>
+            <form id="balanceForm" class="m-b-none panel-body form-horizontal" role="form" data-parsley-validate="">
+                <div class="form-group">
+                    <label class="col-md-3 control-label">Количество, Gold</label>
+                    <div class="col-md-3 col-lg-2">
+                        <input class="form-control" name="amount" type="text" required value="">
+                        <span class="help-block" style="display: none;">Значение не должно быть пустым</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-3 control-label">Комментарий</label>
+
+                    <div class="col-md-8 col-lg-6">
+                        <input class="form-control" name="comment" type="text" required value="">
+                        <span class="help-block" style="display: none;">Значение не должно быть пустым</span>
+                    </div>
+                </div>
+
+                <div class="form-group m-b-none">
+                    <div class="col-md-10 col-md-offset-3">
+                        <button type="submit" class="btn btn-primary">Изменить баланс</button>
+                    </div>
+                </div>
+            </form></div></div>
+
+
+<script>
+   var user_id ='<%=user_id%>';
+   getUser(user_id);
+   $("#balanceForm").on('submit', function (){
+       editBalance('<%=user_id%>');;
+       return false;});
+   $("#userForm").on('submit', function (){
+       editUser('<%=user_id%>');;
+       return false;});
+
+</script>
+
