@@ -1,2 +1,0 @@
-# xsolla
-xsolla task
