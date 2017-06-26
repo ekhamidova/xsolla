@@ -127,3 +127,17 @@ input[type="text"] {
 .btn.btn-primary{
     margin:10px 8px;
 }
+.form-horizontal{
+    margin-top: 10px;
+}
+.btn-white{
+    margin-top: 0;
+}
+.success-label{
+    padding-left: 10px;
+}
+.loading-container img{
+    width: 30px;
+    display: block;
+    margin: 0 auto;
+}

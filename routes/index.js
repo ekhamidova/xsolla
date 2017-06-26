@@ -28,7 +28,7 @@ router.get('/newUser', function(req, res) {
 
 router.get('/users/:user_id/transactions', function(req, res) {
   var user_id = req.params.user_id;
-  res.render('transactions', { title: 'Операции пользователя '+user_id, user_id:user_id});
+  res.render('transactions', { title: 'Операции пользователя ', user_id:user_id});
 });
 
 

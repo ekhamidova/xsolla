@@ -1,6 +1,7 @@
 <% layout('/layout/page') -%>
 <div class="panel">
     <div class="panel-heading bg-white section-name"><div><h5>Новый пользователь</h5></div>   </div>
+
     <form id="newUserForm" class="form-horizontal m-b-none clearfix m-t-small" method="get"  novalidate="">
 
 
@@ -48,6 +49,6 @@ $("[name='email']").bind('input', function() {
     isEmail($(this));
 });
     $("#newUserForm").on('submit', function (){
-        createUser();;
+        createUser( $(this));;
         return false;});
     </script>

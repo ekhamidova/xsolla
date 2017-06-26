@@ -116,11 +116,12 @@ var isEmail = function(obj) {
     return regex.test(obj.val());
 }
 
-var editUser = function(user_id) {
+var editUser = function(form,user_id) {
+
     if (!isEmail($("[name='email']"))) return 0;
 
    // e.preventDefault();
-    var dataForm =$("#userForm").serializeArray();
+    var dataForm =form.serializeArray();
     var data = {};
     data.enabled = Enable;
     for (var i=0;i<dataForm.length;i++){
@@ -128,6 +129,7 @@ var editUser = function(user_id) {
         var value =dataForm[i].value;
         data[name]=value;
     }
+    buttonDisabled(form);
  //    data = {"enabled":Enable, "user_custom":"Update custom name1"};
     data = JSON.stringify(data);
     $.ajax({
@@ -135,13 +137,10 @@ var editUser = function(user_id) {
         type: 'PUT',
         data:data,
         complete: function() {
-          //  $(":submit", form).button("reset");
-            alert("complete");
+            buttonEnabled(form,"Сохранено!");
         },
         statusCode: {
             200: function() {
-                //form.html("Вы вошли в сайт").addClass('alert-success');
-            //    window.location.href = MainURL+user_id;
                 $("[name='email']").siblings(".help-block").hide();
                 $("[name='email']").parent().removeClass("has-success");
             },
@@ -151,11 +150,23 @@ var editUser = function(user_id) {
         }
     });
 };
-var editBalance = function(user_id) {
+var buttonDisabled = function(form){
+    form.find("[type='submit']").prop("disabled", true);
+}
+var hideSuccess = function(form){
+    form.find(".success-label.text-success.m-l-small").remove();
+}
+var buttonEnabled = function(form, text){
+    form.find("[type='submit']").prop("disabled", false);
+    form.find("[type='submit']").after('<span class="success-label text-success m-l-small">'+text+'</span>');
+    setTimeout(function() {hideSuccess(form)},5000);
+
+}
+var editBalance = function(form,user_id) {
     //if (!isComment()){
     //    return false;
     //}
-    var dataForm =$("#balanceForm").serializeArray();
+    var dataForm =form.serializeArray();
 
     var data = {};
     for (var i=0;i<dataForm.length;i++){
@@ -165,6 +176,7 @@ var editBalance = function(user_id) {
     }
  //   var data = {'amount':10, 'comment':'Incoming payment1'};
     data = JSON.stringify(data);
+    buttonDisabled(form);
     var url  = MainURL+"/"+user_id+"/recharge";
     $.ajax({
         url: url,
@@ -174,15 +186,20 @@ var editBalance = function(user_id) {
             var input= $(".form-horizontal").find("[name='balance']");
             if (input && result.amount) input.text(result.amount);
             $("#balanceForm [name]").val('');
+            buttonEnabled(form,"Баланс успешно изменён");
 
-        }
+
+
+        },
+
+
     });
 };
 var isComment = function(){
     return ($("#balanceForm [name='comment']").val()!="");
 }
-var createUser =function(){
-    var dataForm =$("#newUserForm").serializeArray();
+var createUser =function(form){
+    var dataForm =form.serializeArray();
     var data = {};
     for (var i=0;i<dataForm.length;i++){
         var name = dataForm[i].name;
@@ -190,6 +207,7 @@ var createUser =function(){
         data[name]=value;
     }
    //   var data = {user_id:'qqqq'};
+    buttonDisabled(form);
     data = JSON.stringify(data);
     $.ajax({
         url: MainURL,
@@ -197,39 +215,26 @@ var createUser =function(){
         data: data,
         statusCode: {
             200: function () {
-                //form.html("Вы вошли в сайт").addClass('alert-success');
-                //    window.location.href = MainURL+user_id;
                 $("[name='email']").siblings(".help-block").hide();
                 $("[name='email']").parent().removeClass("has-success");
-            },
-            403: function (jqXHR) {
-                //var  error = "";
-                //var split = jqXHR.responseText.split(':');
-                //if (split.length>0)
-                //    error = split[split.length-1];
-                ////   var text =JSON.stringify(jqXHR.responseText);
-                //// var error = JSON.parse(jqXHR.responseText);
-                //$('.error', form).html(error);
-                //$('.error', form).parent().addClass("has-error")
+                buttonEnabled(form,"Сохранено!");
             },
             204: function () {
-                alert("ggg");
-                //form.html("Вы вошли в сайт").addClass('alert-success');
-                //    window.location.href = MainURL+user_id;
-
             }
         },
         success: function (result) {
-            alert(result);
+            buttonEnabled(form,"Сохранено!");
         }
     });
 }
 var findTransaction = function($table,user_id,start,end){
+    $("#usersContent").hide();
+    $(".loading-container").show();
+    $table.bootstrapTable('removeAll');
+
     var data={};
     data.datetime_from = start.format("yyyy-mm-dd'T'HH:MM:ss'Z'");
     data.datetime_to = end.format("yyyy-mm-dd'T'HH:MM:ss'Z'");
- //   data.datetime_from = start;
-  //    data.datetime_to = end;
     var url = MainURL+"/"+user_id+"/transactions";
   //  data = JSON.stringify(data);
     $.ajax({
@@ -239,6 +244,8 @@ var findTransaction = function($table,user_id,start,end){
         success: function (result) {
 
             $table.bootstrapTable('append', getDataTransaction(result));
+            $("#usersContent").show();
+            $(".loading-container").hide();
             //$(tableID).scrollTop($("#button").position().top);
 
         }

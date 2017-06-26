@@ -5,14 +5,18 @@ var limit = 10;
 var offset = 0;
 var tableID = '#usersTable';
 var loadTable = function($table){
+    $("#usersContent").hide();
+    $(".loading-container").show();
     offset += 10;
     var data = {offset: offset, limit: limit};
     $.ajax({
         url: MainURL,// "https://livedemo.xsolla.com/fe/test-task/baev/users",
         data: data,
         success: function (result) {
-            $(tableID).bootstrapTable({data: getDataUser(result.data)});
-            $(tableID).scrollTop($("#button").position().top);
+            $("#usersContent").show();
+            $(".loading-container").hide();
+            $table.bootstrapTable({data: getDataUser(result.data)});
+            $table.scrollTop($("#button").position().top);
 
         }
     });
@@ -30,7 +34,8 @@ $(function () {
             data: data,
             success: function (result) {
                 $(tableID).bootstrapTable('append', getDataUser(result.data));
-               $(tableID).scrollTop($("#button").position().top);
+               //$(tableID).scrollTop($("#button").position().top);
+
 
              }
         });
@@ -97,24 +102,7 @@ function getData(data) {
     }
     return rows;
 }
-function queryParams() {
-    return {
-        limit: limit,
-        offset: 0
-    };
-}
-var resize = function(){
 
-}
 
-var showUser = function() {
-    $.ajax({
-        url: "https://livedemo.xsolla.com/fe/test-task/baev/users/1",
-        //  data: 1,
-        success: function (result) {
-            alert(result);
-        }
-    });
-};
 
 

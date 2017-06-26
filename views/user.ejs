@@ -72,6 +72,7 @@
     </div>
     </div>
     <div class="response-region"><div class="panel"><div class="panel-heading">Изменение баланса</div>
+
             <form id="balanceForm" class="m-b-none panel-body form-horizontal" role="form" data-parsley-validate="">
                 <div class="form-group">
                     <label class="col-md-3 control-label">Количество, Gold</label>
@@ -102,10 +103,10 @@
    var user_id ='<%=user_id%>';
    getUser(user_id);
    $("#balanceForm").on('submit', function (){
-       editBalance('<%=user_id%>');;
+       editBalance($(this),'<%=user_id%>');;
        return false;});
    $("#userForm").on('submit', function (){
-       editUser('<%=user_id%>');;
+       editUser($(this),'<%=user_id%>');;
        return false;});
 
 </script>

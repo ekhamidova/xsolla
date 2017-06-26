@@ -3,6 +3,7 @@
 <section class="filter-region">
     <div class="panel">
         <div class="panel-heading bg-white section-name"><div><h5><%= title %></h5></div>   </div>
+        <h4><a href="/users/<%=user_id%>">Пользователь <%=user_id%></a></h4>
         <form id="transactionForm" class="form-horizontal panel-body m-b-none" method="get" >
                  <div class="col-md-4 col-md-offset-2">
                      <div>
@@ -17,15 +18,10 @@
                     <button type="submit" class="btn btn-primary">Найти</button>
                 </div>
             </div>
-            <!--<div class="form-group m-b-none">-->
-                <!--<div class="col-md-6 col-md-offset-3 col-lg-offset-2">-->
-                 <!-- -->
-                <!--</div>-->
-            <!--</div>-->
         </form>
     </div></section>
 <section class="main padder projects hidden-xs">
-
+    <div class="loading-container"><img src="/images/load.gif"></div>
     <div id="usersContent" class="usersContent">
         <table id="transactionTable"
                data-toggle="table">
@@ -40,9 +36,9 @@
                     (Баланс пользователя после операции)</th>
                 <th data-field="sum">Сумма платежа</th>
                 <th data-field="comment">Комментарий</th>
-
             </tr>
             </thead>
+
         </table>
 
     </div>
@@ -50,24 +46,32 @@
 <script>
     $(function() {
 
-        $('#calendar').daterangepicker({
-            "startDate": "06/07/2017",
-            "endDate": "06/13/2017",
-            locale: {
 
+        $('#calendar').daterangepicker({
+            "startDate": "01/01/2017",
+            "endDate": Date.now(),
+            "autoApply": true,
+            locale: {
+                format: 'DD/MM/YYYY'
             }
         });
 
         $('#calendar').on('apply.daterangepicker', function(ev, picker) {
-            $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
+            $(this).val(picker.startDate.format('DD/MM/YYYY') + ' - ' + picker.endDate.format('DD/MM/YYYY'));
         });
 
 
+
         $("#transactionForm").on('submit', function (){
+
             var start = new Date($("#calendar").data('daterangepicker').startDate._d);
             var end = new Date($("#calendar").data('daterangepicker').endDate._d);
+         //   $("#transactionTable").clear();
             findTransaction($("#transactionTable"),'<%=user_id%>', start,end);
             return false;});
 
+        $("#transactionForm").submit();
+
     });
+
 </script>

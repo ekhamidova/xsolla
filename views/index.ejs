@@ -1,16 +1,12 @@
 <% layout('/layout/page') -%>
 <div class="panel">
     <div class="panel-heading bg-white section-name"><div><h5>Пользователи</h5></div>   </div>
-
+</div>
       <a href="/newUser" class="btn btn-white m-b btn-sm">Создать пользователя</a>
-
-<div id="usersContent" class="usersContent">
+<div class="loading-container"><img src="/images/load.gif"></div>
+<div id="usersContent" class="usersContent" style="display: none">
     <table id="usersTable">
-           <!--data-toggle="table"-->
-           <!--data-url="https://livedemo.xsolla.com/fe/test-task/baev/users"-->
-           <!--data-query-params="queryParams">-->
-
-        <thead >
+             <thead >
         <tr>
             <th data-field="enabled">Статус</th>
             <th data-field="user_id" data-formatter="LinkFormatter">ID пользователя</th>
@@ -31,7 +27,7 @@
     </div>
 
 </div>
-</div>
+
 
 <script>
     loadTable($("#usersTable"));
